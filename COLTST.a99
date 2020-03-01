@@ -1,38 +1,10 @@
-       DEF  RUNTST
 * Detect if element is above horizontal line
        REF  COLHRZ
-       REF  MAKETX,PRINTL,OPENF,CLOSEF
-* Assert is true, Assert is false
-	   REF  ATRUE,AFALSE
        
-* Run all tests
-RUNTST BLWP @OPENF
-       BL   @WRTST
-       BL   @CH1
-       BL   @WREND
-       BLWP @CLOSEF
-LOOP   JMP  LOOP
-
 TSTLST DATA CH1
 	   TEXT 'CH1   '
 TSTEND
  
-* Write something
-WRTST  LI   R0,STARTM
-       LI   R1,ENDM-STARTM
-       BLWP @PRINTL
-       RT
- 
-* Finished testing
-WREND  LI   R0,ENDM
-       LI   R1,ENDME-ENDM
-       BLWP @PRINTL
-       RT
-
-STARTM TEXT 'Testing'
-ENDM   TEXT 'Done'
-ENDME  EVEN
-       
 *
 * Place a sprite directly above a
 * horizontal line.

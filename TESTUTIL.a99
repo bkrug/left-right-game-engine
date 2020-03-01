@@ -1,4 +1,5 @@
-       DEF  MAKETX,PRINTL,OPENF,CLOSEF
+       DEF  RUNTST
+	   DEF  MAKETX,PRINTL
        DEF  FAILT,PASST
        REF  VMBW,VMBR,VSBW,DSRLNK
  
@@ -6,7 +7,30 @@ PASSED DATA >0000
 FAILED DATA >0000
 WORKSP BSS  >20
 STACK  BSS  >100
+
+* Run all tests
+RUNTST BL   @OPENF
+       BL   @WRTST
+       BL   @WREND
+       BL   @CLOSEF
+LOOP   JMP  LOOP
+
+* Write something
+WRTST  LI   R0,STARTM
+       LI   R1,ENDM-STARTM
+       BLWP @PRINTL
+       RT
  
+* Finished testing
+WREND  LI   R0,ENDM
+       LI   R1,ENDME-ENDM
+       BLWP @PRINTL
+       RT
+
+STARTM TEXT 'Testing'
+ENDM   TEXT 'Done'
+ENDME  EVEN
+       
 PASST  INC  @PASSED
        RT
  
@@ -159,7 +183,8 @@ FILENM TEXT 'DSK3.TESTRESULT'
 RCDL   EQU  PDATA+5
 WRITE  BYTE >03
 CLOSE  BYTE >01
-OPENF  DATA WORKSP,OPENFP
+OPENF
+*      DATA WORKSP,OPENFP
 * Copy PAB into VDP RAM
 OPENFP LI   R12,STACK
        LI   R0,PAB
@@ -172,10 +197,8 @@ OPENFP LI   R12,STACK
        BLWP @DSRLNK
        DATA 8
  
-       BL   @ERRORF
- 
-       RTWP
- 
+       B    @ERRORF
+
 * Write one line of text to file or
 * printer.
 * ----------------------
@@ -226,7 +249,8 @@ WRITEF
  
 * Close file
 * ----------
-CLOSEF DATA WORKSP,CLOSEP
+CLOSEF
+*      DATA WORKSP,CLOSEP
 CLOSEP LI   R12,STACK
 * Change I/O op-code to close
        LI   R0,PAB
@@ -238,9 +262,7 @@ CLOSEP LI   R12,STACK
        BLWP @DSRLNK
        DATA 8
 *
-       BL   @ERRORF
- 
-       RTWP
+       B    @ERRORF
  
 * Report Error
 * ------------
