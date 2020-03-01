@@ -1,8 +1,7 @@
 * Detect if element is above horizontal line
        REF  COLHRZ
-       DEF  TSTLST,TSTWS
+       DEF  TSTLST
 
-TSTWS  BSS  >20
 TSTLST DATA TSTEND-TSTLST/8
        DATA CH1
 	   TEXT 'CH1   '
@@ -36,6 +35,7 @@ CH1    LI   R0,CH1SL
        BLWP @COLHRZ
 * If R4 is true, then the test passed.
        MOV  R4,R0
+	   SETO R0
        LI   R1,CH1MS
        LI   R2,CH1ME
        RT

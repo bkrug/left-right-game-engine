@@ -1,13 +1,14 @@
        DEF  RUNTST
 	   DEF  MAKETX,PRINTL
        DEF  FAILT,PASST
-       REF  TSTLST,TSTWS
+       REF  TSTLST
        REF  VMBW,VMBR,VSBW,DSRLNK
  
 PASSED DATA >0000
 FAILED DATA >0000
 WORKSP BSS  >20
 WRKSP2 BSS  >20
+TSTWS  BSS  >20
 STACK  BSS  >100
 
 * Number of tests to run
@@ -40,11 +41,17 @@ TSTLP  MOV  @TSTADR,R0
 * Write pass/fail notice
        MOV  @TSTWS,R0
 	   JEQ  TSTL10
+* Print fail message
        LI   R0,23*32+6
        LI   R1,FAILM
 	   LI   R2,FAILME-FAILM
 	   BLWP @VMBW
-       JMP  TSTL20	   
+	   MOV  @TSTWS+2,R0
+	   MOV  @TSTWS+4,R1
+	   S    R0,R1
+	   BLWP @PRINTL
+       JMP  TSTL20
+* Print pass message
 TSTL10 LI   R0,23*32+6
        LI   R1,PASSM
 	   LI   R2,PASSME-PASSM
