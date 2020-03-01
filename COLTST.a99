@@ -7,10 +7,6 @@ TSTLST DATA TSTEND-TSTLST/8
 	   TEXT 'CH1   '
        DATA CH2
 	   TEXT 'CH2   '
-       DATA CH1
-	   TEXT 'CH3   '
-       DATA CH1
-	   TEXT 'CH4   '
 TSTEND
  
 *
@@ -18,14 +14,14 @@ TSTEND
 * horizontal line.
 * Routine should return true.
 *
+* Upper-left corner of sprite
+CH1SL  BYTE 57,33
+* Sprite Width & Height
+CH1SR  BYTE 13,15
 * Left coordinates of line
 CH1L   BYTE 83,49
 * Width of line
 CH1W   BYTE 104
-* Upper-left corner of sprite
-CH1SL  BYTE 112,33
-* Sprite Width & Height
-CH1SR  BYTE 13,15
 *
 EVEN
 CH1    LI   R0,CH1SL
@@ -46,14 +42,14 @@ CH1ME  EVEN
 * horizontal line.
 * Routine should return false.
 *
-* Left coordinates of line
-CH2L   BYTE 26,104
-* Width of line
-CH2W   BYTE 61
 * Upper-left corner of sprite
 CH2SL  BYTE 31,110
 * Sprite Width & Height
 CH2SR  BYTE 13,15
+* Left coordinates of line
+CH2L   BYTE 26,104
+* Width of line
+CH2W   BYTE 61
 *
        EVEN
 CH2    LI   R0,CH2SL

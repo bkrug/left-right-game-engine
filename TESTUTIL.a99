@@ -45,8 +45,10 @@ TSTL05 CLR  *R0+
 * Restore local workspace
        LWPI WRKSP2
 * Write pass/fail notice
+* If word at TSTWS != 0, then pass.
+* If word at TSTWS == 0, then fail.
        MOV  @TSTWS,R0
-	   JEQ  TSTL10
+	   JNE  TSTL10
 * Print fail message
        LI   R0,23*32+6
        LI   R1,FAILM

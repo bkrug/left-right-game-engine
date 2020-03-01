@@ -7,7 +7,25 @@ LCLWS  BSS  >20
 * overlaping a horizontal line
 *
 COLHRZ DATA LCLWS,COLHRZ+4
-       SETO @8(13)
+* Load address of source registers
+* into local registers
+       MOV  *R13,R0
+	   MOV  @4(13),R2
+* Move uppper-left corner of sprite into R0
+	   MOV  *R0,R0
+* Move left-most point of line into R2
+	   MOV  *R2,R2
+* Erase x-coordinate and leave only
+* y-coordinate behind in R0 and R2
+	   SRL  R0,8
+	   SRL  R2,8
+* If value in R0 <= R2,
+* return true (collision detected)
+	   C    R0,R2
+	   JLE  COLH1
+       CLR  @8(13)
+       RTWP
+COLH1  SETO @8(13)
        RTWP
 
        END
