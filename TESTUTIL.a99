@@ -16,32 +16,51 @@ TSTCNT DATA 0
 TSTADR DATA 0
 
 * Run all tests
+* ----------------------
 RUNTST LWPI WRKSP2
+* Display test start message
        BL   @OPENF
        BL   @WRTST
-
+* Initialize variables for tracking
+* test run progress
        LI   R0,TSTLST
 	   MOV  *R0+,@TSTCNT
        MOV  R0,@TSTADR
-
-TSTLP  LWPI TSTWS
+* Write name of the next test
+TSTLP  MOV  @TSTADR,R0
+	   INCT R0
+	   LI   R1,6
+	   BLWP @PRINTL
+* Branch and link to the next test
+       LWPI TSTWS
        MOV  @TSTADR,R0
 	   MOV  *R0,R0
 	   BL   *R0
        LWPI WRKSP2
-
-       MOV  @TSTADR,R0
-	   INCT R0
-	   LI   R1,6
-	   BLWP @PRINTL
-
+* Write pass/fail notice
+       MOV  @TSTWS,R0
+	   JEQ  TSTL10
+       LI   R0,23*32+6
+       LI   R1,FAILM
+	   LI   R2,FAILME-FAILM
+	   BLWP @VMBW
+       JMP  TSTL20	   
+TSTL10 LI   R0,23*32+6
+       LI   R1,PASSM
+	   LI   R2,PASSME-PASSM
+	   BLWP @VMBW
+TSTL20
+* Update test progress variables
 	   LI   R1,8
 	   A    R1,@TSTADR
 	   DEC  @TSTCNT
+* Make next iteration in loop
 	   JH   TSTLP
-       
+* Display test completion message
        BL   @WREND
        BL   @CLOSEF
+*
+       LIMI 2
 LOOP   JMP  LOOP
 
 * Write something
@@ -58,7 +77,13 @@ WREND  LI   R0,ENDM
 
 STARTM TEXT 'Testing'
 ENDM   TEXT 'Done'
-ENDME  EVEN
+ENDME
+PASSM  TEXT ' passed.'
+PASSME
+FAILM  TEXT ' failed.'
+FAILME
+       EVEN
+
        
 PASST  INC  @PASSED
        RT
