@@ -1,16 +1,42 @@
        DEF  RUNTST
 	   DEF  MAKETX,PRINTL
        DEF  FAILT,PASST
+       REF  TSTLST,TSTWS
        REF  VMBW,VMBR,VSBW,DSRLNK
  
 PASSED DATA >0000
 FAILED DATA >0000
 WORKSP BSS  >20
+WRKSP2 BSS  >20
 STACK  BSS  >100
 
+* Number of tests to run
+TSTCNT DATA 0
+* Current address within test list
+TSTADR DATA 0
+
 * Run all tests
-RUNTST BL   @OPENF
+RUNTST LWPI WRKSP2
+       BL   @OPENF
        BL   @WRTST
+
+       LI   R0,TSTLST
+	   MOV  *R0+,@TSTCNT
+       MOV  R0,@TSTADR
+
+TSTLP  LWPI TSTWS
+       LWPI WRKSP2
+
+       MOV  @TSTADR,R0
+	   INCT R0
+	   LI   R1,6
+	   BLWP @PRINTL
+
+	   LI   R1,8
+	   A    R1,@TSTADR
+	   DEC  @TSTCNT
+	   JH   TSTLP
+       
        BL   @WREND
        BL   @CLOSEF
 LOOP   JMP  LOOP

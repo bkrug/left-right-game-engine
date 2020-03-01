@@ -1,8 +1,17 @@
 * Detect if element is above horizontal line
        REF  COLHRZ
-       
-TSTLST DATA CH1
+       DEF  TSTLST,TSTWS
+
+TSTWS  BSS  >20
+TSTLST DATA TSTEND-TSTLST/8
+       DATA CH1
 	   TEXT 'CH1   '
+       DATA CH1
+	   TEXT 'CH2   '
+       DATA CH1
+	   TEXT 'CH3   '
+       DATA CH1
+	   TEXT 'CH4   '
 TSTEND
  
 *
