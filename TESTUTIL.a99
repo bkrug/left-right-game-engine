@@ -32,11 +32,17 @@ TSTLP  MOV  @TSTADR,R0
 	   INCT R0
 	   LI   R1,6
 	   BLWP @PRINTL
-* Branch and link to the next test
+* Clear and load test workspace
+       LI   R0,TSTWS
+TSTL05 CLR  *R0+
+       CI   R0,TSTWS+>20
+	   JL   TSTL05
        LWPI TSTWS
-       MOV  @TSTADR,R0
-	   MOV  *R0,R0
-	   BL   *R0
+* Branch and link to the next test
+       MOV  @TSTADR,R11
+	   MOV  *R11,R11
+	   BL   *R11
+* Restore local workspace
        LWPI WRKSP2
 * Write pass/fail notice
        MOV  @TSTWS,R0

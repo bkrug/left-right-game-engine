@@ -5,7 +5,7 @@
 TSTLST DATA TSTEND-TSTLST/8
        DATA CH1
 	   TEXT 'CH1   '
-       DATA CH1
+       DATA CH2
 	   TEXT 'CH2   '
        DATA CH1
 	   TEXT 'CH3   '
@@ -35,10 +35,38 @@ CH1    LI   R0,CH1SL
        BLWP @COLHRZ
 * If R4 is true, then the test passed.
        MOV  R4,R0
-	   SETO R0
-       LI   R1,CH1MS
+	   LI   R1,CH1MS
        LI   R2,CH1ME
        RT
 CH1MS  TEXT 'Sprite directly above line so a collision should be detected.'
 CH1ME  EVEN
+
+*
+* Place a sprite directly below a
+* horizontal line.
+* Routine should return false.
+*
+* Left coordinates of line
+CH2L   BYTE 26,104
+* Width of line
+CH2W   BYTE 61
+* Upper-left corner of sprite
+CH2SL  BYTE 31,110
+* Sprite Width & Height
+CH2SR  BYTE 13,15
+*
+       EVEN
+CH2    LI   R0,CH2SL
+       LI   R1,CH2SR
+	   LI   R2,CH2L
+	   LI   R3,CH2W
+	   BLWP @COLHRZ
+* If R4 is false, then the test passed.
+       MOV  R4,R0
+	   INV  R0
+	   LI   R1,CH2MS
+	   LI   R2,CH2ME
+	   RT
+CH2MS  TEXT 'Sprite directly below line so no collision should be detected.'
+CH2ME  EVEN
        END
