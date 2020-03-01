@@ -1,0 +1,13 @@
+       DEF  COLHRZ
+	   
+LCLWS  BSS  >20
+       
+* Return true if the specified 
+* rectangle is directly above or 
+* overlaping a horizontal line
+*
+COLHRZ DATA LCLWS,COLHRZ+4
+       SETO @8(13)
+       RTWP
+
+       END
