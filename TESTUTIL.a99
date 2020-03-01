@@ -25,6 +25,9 @@ RUNTST LWPI WRKSP2
        MOV  R0,@TSTADR
 
 TSTLP  LWPI TSTWS
+       MOV  @TSTADR,R0
+	   MOV  *R0,R0
+	   BL   *R0
        LWPI WRKSP2
 
        MOV  @TSTADR,R0
