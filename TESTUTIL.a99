@@ -1,13 +1,11 @@
        DEF  RUNTST
 	   DEF  MAKETX,PRINTL
-       DEF  FAILT,PASST
        REF  TSTLST
        REF  VMBW,VMBR,VSBW,DSRLNK
  
 PASSED DATA >0000
 FAILED DATA >0000
 WORKSP BSS  >20
-WRKSP2 BSS  >20
 TSTWS  BSS  >20
 STACK  BSS  >100
 
@@ -18,10 +16,14 @@ TSTADR DATA 0
 
 * Run all tests
 * ----------------------
-RUNTST LWPI WRKSP2
-* Display test start message
+RUNTST LWPI WORKSP
+       LI   R12,STACK
+* Open test result file
        BL   @OPENF
-       BL   @WRTST
+* Display test start message
+       LI   R0,STARTM
+       LI   R1,ENDM-STARTM
+	   BL   @SCRLPT
 * Initialize variables for tracking
 * test run progress
        LI   R0,TSTLST
@@ -31,7 +33,7 @@ RUNTST LWPI WRKSP2
 TSTLP  MOV  @TSTADR,R0
 	   INCT R0
 	   LI   R1,6
-	   BLWP @PRINTL
+       BL   @SCRLPT
 * Clear and load test workspace
        LI   R0,TSTWS
 TSTL05 CLR  *R0+
@@ -43,7 +45,7 @@ TSTL05 CLR  *R0+
 	   MOV  *R11,R11
 	   BL   *R11
 * Restore local workspace
-       LWPI WRKSP2
+       LWPI WORKSP
 * Write pass/fail notice
 * If word at TSTWS != 0, then pass.
 * If word at TSTWS == 0, then fail.
@@ -57,7 +59,7 @@ TSTL05 CLR  *R0+
 	   MOV  @TSTWS+2,R0
 	   MOV  @TSTWS+4,R1
 	   S    R0,R1
-	   BLWP @PRINTL
+	   BL   @SCRLPT
        JMP  TSTL20
 * Print pass message
 TSTL10 LI   R0,23*32+6
@@ -72,23 +74,14 @@ TSTL20
 * Make next iteration in loop
 	   JH   TSTLP
 * Display test completion message
-       BL   @WREND
+       LI   R0,ENDM
+       LI   R1,ENDME-ENDM
+	   BL   @SCRLPT
+* Close test result file
        BL   @CLOSEF
 *
        LIMI 2
 LOOP   JMP  LOOP
-
-* Write something
-WRTST  LI   R0,STARTM
-       LI   R1,ENDM-STARTM
-       BLWP @PRINTL
-       RT
- 
-* Finished testing
-WREND  LI   R0,ENDM
-       LI   R1,ENDME-ENDM
-       BLWP @PRINTL
-       RT
 
 STARTM TEXT 'Testing'
 ENDM   TEXT 'Done'
@@ -173,6 +166,13 @@ PRINTP LI   R12,STACK
        BL   @WRITEF
        BL   @SCRLP
        RTWP
+
+SCRLPT MOV  R11,*R12+
+       BL   @WRITEF
+       BL   @SCRLP
+       DECT R12
+	   MOV  *R12,R11
+	   RT
        
 SCRLP  MOV  R11,*R12+
        MOV  R8,*R12+
@@ -253,9 +253,7 @@ RCDL   EQU  PDATA+5
 WRITE  BYTE >03
 CLOSE  BYTE >01
 OPENF
-*      DATA WORKSP,OPENFP
 * Copy PAB into VDP RAM
-OPENFP LI   R12,STACK
        LI   R0,PAB
        LI   R1,PDATA
        LI   R2,25
@@ -319,8 +317,6 @@ WRITEF
 * Close file
 * ----------
 CLOSEF
-*      DATA WORKSP,CLOSEP
-CLOSEP LI   R12,STACK
 * Change I/O op-code to close
        LI   R0,PAB
        MOVB @CLOSE,R1
