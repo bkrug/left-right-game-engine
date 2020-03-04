@@ -2,7 +2,9 @@
 	   DEF  MAKETX,PRINTL
        REF  TSTLST
        REF  VMBW,VMBR,VSBW,DSRLNK
- 
+
+RUNTST B    @RUNT
+
 PASSED DATA >0000
 FAILED DATA >0000
 WORKSP BSS  >20
@@ -16,7 +18,7 @@ TSTADR DATA 0
 
 * Run all tests
 * ----------------------
-RUNTST LWPI WORKSP
+RUNT   LWPI WORKSP
        LI   R12,STACK
 * Open test result file
        BL   @OPENF
