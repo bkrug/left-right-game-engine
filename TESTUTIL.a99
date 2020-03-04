@@ -1,6 +1,6 @@
        DEF  RUNTST
 	   DEF  MAKETX,PRINTL
-       REF  TSTLST
+       REF  TSTLST,RSLTFL
        REF  VMBW,VMBR,VSBW,DSRLNK
 
 RUNTST B    @RUNT
@@ -234,8 +234,8 @@ SCRLRT DECT R12
  
 * Open file
 * ---------
-* FILENM: the location of the filename
-* Must write to FILENM and call OPENF
+* RSLTFL: the location of the filename
+* Must write to RSLTFL and call OPENF
 * before calling WRITEF
 PABBUF EQU  >1000
 PAB    EQU  >F80
@@ -249,7 +249,6 @@ PNTR   EQU  >8356
 * Byte 8 = status o file
 * Byte 9 = file name length
 PDATA  DATA >0012,PABBUF,>5000,>0000,>000F
-FILENM TEXT 'DSK3.TESTRESULT'
        EVEN
 RCDL   EQU  PDATA+5
 WRITE  BYTE >03
@@ -258,8 +257,14 @@ OPENF
 * Copy PAB into VDP RAM
        LI   R0,PAB
        LI   R1,PDATA
-       LI   R2,25
+       LI   R2,9
        BLWP @VMBW
+* Copy filename to VDP RAM
+       LI   R0,PAB+9
+	   LI   R1,RSLTFL
+	   MOV  *R1,R2
+	   INC  R2
+	   BLWP @VMBW
 * Open file
        LI   R6,PAB+9
        MOV  R6,@PNTR

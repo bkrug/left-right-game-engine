@@ -1,13 +1,17 @@
 * Detect if element is above horizontal line
        REF  COLHRZ
-       DEF  TSTLST
+       DEF  TSTLST,RSLTFL
 
-TSTLST DATA TSTEND-TSTLST/8
+TSTLST DATA TSTEND-TSTLST-2/8
        DATA CH1
 	   TEXT 'CH1   '
        DATA CH2
 	   TEXT 'CH2   '
 TSTEND
+RSLTFL BYTE RSLTFE-RSLTFL-1
+       TEXT 'DSK1.TESTRESULT'
+RSLTFE
+       EVEN
  
 *
 * Place a sprite directly above a
