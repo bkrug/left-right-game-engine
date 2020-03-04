@@ -299,7 +299,7 @@ WRITEF
 * Rewrite data
        LI   R0,PAB
        LI   R1,PDATA
-       LI   R2,25
+       LI   R2,9
        BLWP @VMBW
 * Do write operation
        LI   R6,PAB+9
