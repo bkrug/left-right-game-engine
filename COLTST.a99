@@ -23,17 +23,19 @@ CH1L   BYTE 83,49
 * Width of line
 CH1W   BYTE 104
 *
-EVEN
-CH1    LI   R0,CH1SL
+       EVEN
+CH1    MOV  R11,R12
+       LI   R0,CH1SL
        LI   R1,CH1SR
        LI   R2,CH1L
        LI   R3,CH1W
-       BLWP @COLHRZ
+       BL   @COLHRZ
 * If R4 is true, then the test passed.
        MOV  R4,R0
 	   LI   R1,CH1MS
        LI   R2,CH1ME
-       RT
+       MOV  R12,R11
+	   RT
 CH1MS  TEXT 'Sprite directly above line so a collision should be detected.'
 CH1ME  EVEN
 
@@ -52,16 +54,18 @@ CH2L   BYTE 26,104
 CH2W   BYTE 61
 *
        EVEN
-CH2    LI   R0,CH2SL
+CH2    MOV  R11,R12
+       LI   R0,CH2SL
        LI   R1,CH2SR
 	   LI   R2,CH2L
 	   LI   R3,CH2W
-	   BLWP @COLHRZ
+	   BL   @COLHRZ
 * If R4 is false, then the test passed.
        MOV  R4,R0
 	   INV  R0
 	   LI   R1,CH2MS
 	   LI   R2,CH2ME
+       MOV  R12,R11
 	   RT
 CH2MS  TEXT 'Sprite directly below line so no collision should be detected.'
 CH2ME  EVEN
