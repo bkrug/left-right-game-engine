@@ -4,10 +4,15 @@
        REF  COLHRZ
 
 TSTLST DATA TSTEND-TSTLST-2/8
+* Sprite directly above line
        DATA CH1
 	   TEXT 'CH1   '
+* Sprite directly below line
        DATA CH2
 	   TEXT 'CH2   '
+* Sprite top on line
+       DATA CH3
+	   TEXT 'CH3   '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -77,4 +82,36 @@ CH2    MOV  R11,R12
 	   RT
 CH2MS  TEXT 'Sprite directly below line so no collision should be detected.'
 CH2ME  EVEN
+
+*
+* Place a sprite directly below a
+* horizontal line.
+* Routine should return false.
+*
+* Upper-left corner of sprite
+CH3SL  BYTE 170,190
+* Sprite Width & Height
+CH3SR  BYTE 13,15
+* Left coordinates of line
+CH3L   BYTE 170,172
+* Width of line
+CH3W   BYTE 48
+*
+       EVEN
+CH3    MOV  R11,R12
+       LI   R0,CH3SL
+       LI   R1,CH3SR
+	   LI   R2,CH3L
+	   LI   R3,CH3W
+	   BL   @COLHRZ
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CH3MS
+	   LI   R3,CH3ME-CH3MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH3MS  TEXT 'Sprite top directly on line so collision should be detected.'
+CH3ME  EVEN
        END
