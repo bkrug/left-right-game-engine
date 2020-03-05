@@ -1,6 +1,7 @@
+       DEF  TSTLST,RSLTFL
+	   REF  AEQ
 * Detect if element is above horizontal line
        REF  COLHRZ
-       DEF  TSTLST,RSLTFL
 
 TSTLST DATA TSTEND-TSTLST-2/8
        DATA CH1
@@ -34,10 +35,12 @@ CH1    MOV  R11,R12
        LI   R2,CH1L
        LI   R3,CH1W
        BL   @COLHRZ
-* If R4 is true, then the test passed.
-       MOV  R4,R0
-	   LI   R1,CH1MS
-       LI   R2,CH1ME
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CH1MS
+       LI   R3,CH1ME-CH1MS
+	   BLWP @AEQ
        MOV  R12,R11
 	   RT
 CH1MS  TEXT 'Sprite directly above line so a collision should be detected.'
@@ -64,11 +67,12 @@ CH2    MOV  R11,R12
 	   LI   R2,CH2L
 	   LI   R3,CH2W
 	   BL   @COLHRZ
-* If R4 is false, then the test passed.
-       MOV  R4,R0
-	   INV  R0
-	   LI   R1,CH2MS
-	   LI   R2,CH2ME
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CH2MS
+	   LI   R3,CH2ME-CH2MS
+	   BLWP @AEQ
        MOV  R12,R11
 	   RT
 CH2MS  TEXT 'Sprite directly below line so no collision should be detected.'

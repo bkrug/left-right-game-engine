@@ -1,5 +1,6 @@
        DEF  RUNTST
 	   DEF  MAKETX,PRINTL
+	   DEF  AEQ,ANEQ
        REF  TSTLST,RSLTFL
        REF  VMBW,VMBR,VSBW,DSRLNK
 
@@ -48,21 +49,6 @@ TSTL05 CLR  *R0+
 	   BL   *R11
 * Restore local workspace
        LWPI WORKSP
-* Write pass/fail notice
-* If word at TSTWS != 0, then pass.
-* If word at TSTWS == 0, then fail.
-       MOV  @TSTWS,R0
-	   JNE  TSTL10
-* Print fail message
-       LI   R0,23*32+6
-       LI   R1,FAILM
-	   LI   R2,FAILME-FAILM
-	   BLWP @VMBW
-	   MOV  @TSTWS+2,R0
-	   MOV  @TSTWS+4,R1
-	   S    R0,R1
-	   BL   @SCRLPT
-       JMP  TSTL20
 * Print pass message
 TSTL10 LI   R0,23*32+6
        LI   R1,PASSM
@@ -380,4 +366,108 @@ ERRRT
        DECT R12
        MOV  *R12,R0
        RT
-       END
+
+* Below is the parameter signature for
+* any Word-Assert or Byte-Assert routine.
+* R0: Expected value
+* R1: Actual value
+* R2: Address of fail message
+* R3: Length of fail message
+* Assert Words Are Equal
+* ----------------------
+* Return true if contents of R2 and R3
+* are equal. Displays their contents if
+* not equal.
+* See DSKx.TESTFRAME for paramter 
+* signature.
+AEQ    DATA WORKSP,AEQP
+AEQMES TEXT 'Expected '
+AEQM1  BSS  >4
+       TEXT ' but actual '
+AEQM2  BSS  >4
+       TEXT '.'
+AEQME  EVEN
+AEQP
+* Copy Parameters
+       BL   @COPYP
+* Output Test Name
+       C    R0,R1
+       JEQ  AEQS
+* Report failure
+       BL   @RF
+       DATA AEQM1,AEQM2
+       DATA AEQMES,AEQME-AEQMES
+* Report success
+AEQS   RTWP
+
+* Assert Words Are Not Equal
+* --------------------------
+* Return true if contents of R2 and R3
+* are not equal. Displays their 
+* contents if equal.
+ANEQ   DATA WORKSP,ANEQP
+ANEQM  TEXT 'Expected unequal values, but '
+       TEXT 'both values are '
+ANEQM1 BSS  >4
+       TEXT '.'
+ANEQME EVEN
+ANEQP
+* Copy Parameters
+       BL   @COPYP
+* Output Test Name
+       C    R0,R1
+       JNE  ANEQS
+* Report failure
+       BL   @RF
+       DATA ANEQM1,ANEQM1
+       DATA ANEQM,ANEQME-ANEQM
+* Report success
+ANEQS  RTWP
+
+* Routines shared by assert
+* routines.
+* ----------------------
+* Copy Parameters to Registers
+COPYP  LI   R12,STACK
+       MOV  *R13+,R0
+       MOV  *R13+,R1
+       MOV  *R13+,R2
+       MOV  *R13+,R3
+       AI   R13,-8
+       RT
+
+* Report Failure
+* R0: Expected Value
+* R1: Actual Value
+* R2: User-defined failure message
+* R3: Message length
+* Memory Addresses after BL command
+* +02: Dest address of expected text
+* +04: Dest address of actual text
+* +06: Address of standard failure message
+* +08: length of failure message
+RF     
+       MOV  R11,R10
+       MOV  R1,R4
+* Convert values to Hexadecimal Text.
+* R0 already contains the expected value
+       MOV  *R10+,R1
+       BL   @MAKEHX
+* the actual value is copied from R4
+       MOV  R4,R0
+       MOV  *R10+,R1
+       BL   @MAKEHX
+* Display standard failure message
+       MOV  *R10+,R0
+       MOV  *R10+,R1
+       BL   @SCRLPT
+* Display user-defined failure message
+       MOV  R2,R0
+       MOV  R3,R1
+       BL   @SCRLPT
+* Don't return to the test being run. No
+* need to run extra assertions
+* in the same test.
+       B    @TSTL20
+	   
+       END	   
