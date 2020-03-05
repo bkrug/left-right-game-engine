@@ -9,29 +9,29 @@ COLHRZ
 	   MOVB *R0+,R4
 * Let R5 = left of sprite
 	   MOVB *R0+,R5
-* Let R6 = right of sprite
-	   MOVB *R1+,R6
-	   AB   R5,R6
 * Let R0 = height of line
 	   MOVB *R2+,R0
-* Let R1 = left of line
-       MOVB *R2+,R1
-* Let R2 = right of line
-       MOVB *R3,R2
-	   AB   R1,R2
 * Compare sprite top to line height
 	   C    R4,R0
 	   JH   COLH1
-* Compare sprite left to line right
-       C    R5,R2
-       JH   COLH1	   
+* Let R6 = right of sprite
+	   MOVB *R1+,R6
+	   AB   R5,R6
+* Let R1 = left of line
+       MOVB *R2+,R1
 * Compare sprite right to line left
 	   C    R6,R1
 	   JL   COLH1
+* Let R2 = right of line
+       MOVB *R3,R2
+	   AB   R1,R2
+* Compare sprite left to line right
+       C    R5,R2
+       JH   COLH1	   
 * Collision detected
        SETO R4
        RT
-* No collision)
+* No collision
 COLH1  CLR  R4
        RT
 
