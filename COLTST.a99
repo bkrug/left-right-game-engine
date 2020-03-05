@@ -13,6 +13,12 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite top on line
        DATA CH3
 	   TEXT 'CH3   '
+* Sprite left above line edge
+       DATA CH4
+	   TEXT 'CH4   '
+* Sprite left below line edge
+       DATA CH5
+	   TEXT 'CH5   '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -84,9 +90,9 @@ CH2MS  TEXT 'Sprite directly below line so no collision should be detected.'
 CH2ME  EVEN
 
 *
-* Place a sprite directly below a
+* Place a sprite top directly on
 * horizontal line.
-* Routine should return false.
+* Routine should return true.
 *
 * Upper-left corner of sprite
 CH3SL  BYTE 170,190
@@ -114,4 +120,68 @@ CH3    MOV  R11,R12
 	   RT
 CH3MS  TEXT 'Sprite top directly on line so collision should be detected.'
 CH3ME  EVEN
+
+*
+* Place a sprite left edge directly
+* above horizontal line's left edge.
+* Routine should return true.
+*
+* Upper-left corner of sprite
+CH4SL  BYTE 123,12
+* Sprite Width & Height
+CH4SR  BYTE 11,14
+* Left coordinates of line
+CH4L   BYTE 202,12
+* Width of line
+CH4W   BYTE 149
+*
+       EVEN
+CH4    MOV  R11,R12
+       LI   R0,CH4SL
+       LI   R1,CH4SR
+	   LI   R2,CH4L
+	   LI   R3,CH4W
+	   BL   @COLHRZ
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CH4MS
+	   LI   R3,CH4ME-CH4MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH4MS  TEXT 'Sprite left edge directly above line left edge should result in collision.'
+CH4ME  EVEN
+
+*
+* Place a sprite left edge directly
+* below horizontal line's left edge.
+* Routine should return false.
+*
+* Upper-left corner of sprite
+CH5SL  BYTE 208,35
+* Sprite Width & Height
+CH5SR  BYTE 12,15
+* Left coordinates of line
+CH5L   BYTE 198,35
+* Width of line
+CH5W   BYTE 87
+*
+       EVEN
+CH5    MOV  R11,R12
+       LI   R0,CH5SL
+       LI   R1,CH5SR
+	   LI   R2,CH5L
+	   LI   R3,CH5W
+	   BL   @COLHRZ
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CH5MS
+	   LI   R3,CH5ME-CH5MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH5MS  TEXT 'Sprite left edge directly below line left edge should not result in collision.'
+CH5ME  EVEN
        END
