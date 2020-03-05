@@ -7,19 +7,37 @@
 COLHRZ 
 * Move uppper-left corner of sprite into R0
 	   MOV  *R0,R0
+	   MOV  *R1,R1
 * Move left-most point of line into R2
 	   MOV  *R2,R2
-* Erase x-coordinate and leave only
-* y-coordinate behind in R0 and R2
+* Let R1 contain the left-most position 
+* of sprite.
+* Let R6 contain the right-most position
+* of sprite.
+       SRL  R1,8
+	   MOV  R0,R6
+	   SWPB R6
+	   SRL  R6,8
+	   A    R1,R6
+* Let R5 contain the left-most line point
+       MOV  R2,R5
+	   SWPB R5
+	   SRL  R5,8
+* Let R0 contain top of sprite
+* Let R2 contain line y-position
 	   SRL  R0,8
 	   SRL  R2,8
-* If value in R0 <= R2,
-* return true (collision detected)
+* Compare sprite top to line height
 	   C    R0,R2
-	   JLE  COLH1
-       CLR  R4
+	   JH   COLH1
+* Compare sprite right to line left
+	   C    R6,R5
+	   JL   COLH1
+* Collision detected
+       SETO R4
        RT
-COLH1  SETO R4
+* No collision)
+COLH1  CLR  R4
        RT
 
        END
