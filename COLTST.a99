@@ -22,6 +22,19 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite to the left of line (but high)
        DATA CH6
 	   TEXT 'CH6   '
+* Sprite to the right of line (but high)
+       DATA CH7
+	   TEXT 'CH7   '
+* Sprite to the right of line.
+* Right edge spills of the screen.
+       DATA CH8
+	   TEXT 'CH8   '
+* Sprite right above line edge
+       DATA CH9
+	   TEXT 'CH9   '	   
+* Sprite right below line edge
+       DATA CH10
+	   TEXT 'CH10  '	   
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -219,4 +232,135 @@ CH6    MOV  R11,R12
 	   RT
 CH6MS  TEXT 'Sprite is to the left of the line so no collision should be detected.'
 CH6ME  EVEN
+
+*
+* Place a sprite higher than line but
+* to the right of it.
+* Routine should return false.
+*
+* Upper-left corner of sprite
+CH7SL  BYTE 39,204
+* Sprite Width & Height
+CH7SR  BYTE 10,15
+* Left coordinates of line
+CH7L   BYTE 71,59
+* Width of line
+CH7W   BYTE 128
+*
+       EVEN
+CH7    MOV  R11,R12
+       LI   R0,CH7SL
+       LI   R1,CH7SR
+	   LI   R2,CH7L
+	   LI   R3,CH7W
+	   BL   @COLHRZ
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CH7MS
+	   LI   R3,CH7ME-CH7MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH7MS  TEXT 'Sprite is to the right of the line so no collision should be detected.'
+CH7ME  EVEN
+
+*
+* Place a sprite to the right of the
+* line, and spilling of the right edge
+* of the screen.
+* Routine should return false.
+*
+* Upper-left corner of sprite
+CH8SL  BYTE 44,253
+* Sprite Width & Height
+CH8SR  BYTE 14,15
+* Left coordinates of line
+CH8L   BYTE 52,4
+* Width of line
+CH8W   BYTE 62
+*
+       EVEN
+CH8    MOV  R11,R12
+       LI   R0,CH8SL
+       LI   R1,CH8SR
+	   LI   R2,CH8L
+	   LI   R3,CH8W
+	   BL   @COLHRZ
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CH8MS
+	   LI   R3,CH8ME-CH8MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH8MS  TEXT 'Sprite is to the right of the line. '
+       TEXT 'Sprite spills off the right edge of the screen. '
+	   TEXT 'If a collision is detected, that is an error.'
+CH8ME  EVEN
+
+*
+* Place a sprite right edge directly
+* above horizontal line's left edge.
+* Routine should return true.
+*
+* Upper-left corner of sprite
+CH9SL  BYTE 69,104
+* Sprite Width & Height
+CH9SR  BYTE 10,11
+* Left coordinates of line
+CH9L   BYTE 172,113
+* Width of line
+CH9W   BYTE 78
+*
+       EVEN
+CH9    MOV  R11,R12
+       LI   R0,CH9SL
+       LI   R1,CH9SR
+	   LI   R2,CH9L
+	   LI   R3,CH9W
+	   BL   @COLHRZ
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CH9MS
+	   LI   R3,CH9ME-CH9MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH9MS  TEXT 'Sprite right edge is above the line, so collision should happen.'
+CH9ME  EVEN
+
+*
+* Place a sprite right edge directly
+* below horizontal line's right edge.
+* Routine should return false.
+*
+* Upper-left corner of sprite
+CH10SL BYTE 145,96
+* Sprite Width & Height
+CH10SR BYTE 14,15
+* Left coordinates of line
+CH10L  BYTE 54,109
+* Width of line
+CH10W  BYTE 61
+*
+       EVEN
+CH10   MOV  R11,R12
+       LI   R0,CH10SL
+       LI   R1,CH10SR
+	   LI   R2,CH10L
+	   LI   R3,CH10W
+	   BL   @COLHRZ
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CH10MS
+	   LI   R3,CH10ME-CH10MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CH10MS TEXT 'Sprite right edge is below the line, so no collision should happen.'
+CH10ME EVEN
        END
