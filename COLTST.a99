@@ -71,9 +71,17 @@ TSTLST DATA TSTEND-TSTLST-2/8
        DATA CR11
 	   TEXT 'CR11  '
 * Sprite below rectangle
+       DATA CR12
+	   TEXT 'CR12  '
 * Sprite above rectangle
+       DATA CR13
+	   TEXT 'CR13  '
 * Sprite right of rectangle
+       DATA CR14
+	   TEXT 'CR14  '
 * Sprite left of rectangle
+       DATA CR15
+	   TEXT 'CR15  '
 * Sprite right of rectangle and overflowing from screen
 * Sprite below rectangle and overflowing from screen
 * Sprite below and to left of rectangle
@@ -728,10 +736,122 @@ CR11   MOV  R11,R12
 CR11MS TEXT 'Sprite right edge should not quite touch the rectangle.'
 CR11ME EVEN
 
+*
 * Sprite below rectangle
+*
+* Upper-left corner of sprite
+CR12SL BYTE 143,162
+* Sprite height & width
+CR12SR BYTE 15,14
+* Upper-left corner of rectangle
+CR12L  BYTE 100,150
+* Rectange height & width
+CR12W  BYTE 25,50
+*
+CR12   MOV  R11,R12
+       LI   R0,CR12SL
+       LI   R1,CR12SR
+       LI   R2,CR12L
+       LI   R3,CR12W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR12MS
+       LI   R3,CR12ME-CR12MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR12MS TEXT 'Sprite should be below the rectangle.'
+CR12ME EVEN
+
+*
 * Sprite above rectangle
+*
+* Upper-left corner of sprite
+CR13SL BYTE 9,172
+* Sprite height & width
+CR13SR BYTE 14,15
+* Upper-left corner of rectangle
+CR13L  BYTE 100,150
+* Rectange height & width
+CR13W  BYTE 25,50
+*
+CR13   MOV  R11,R12
+       LI   R0,CR13SL
+       LI   R1,CR13SR
+       LI   R2,CR13L
+       LI   R3,CR13W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR13MS
+       LI   R3,CR13ME-CR13MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR13MS TEXT 'Sprite should be above the rectangle.'
+CR13ME EVEN
+
+*
 * Sprite right of rectangle
+*
+* Upper-left corner of sprite
+CR14SL BYTE 72,139
+* Sprite height & width
+CR14SR BYTE 14,15
+* Upper-left corner of rectangle
+CR14L  BYTE 23,106
+* Rectange height & width
+CR14W  BYTE 150,5
+*
+CR14   MOV  R11,R12
+       LI   R0,CR14SL
+       LI   R1,CR14SR
+       LI   R2,CR14L
+       LI   R3,CR14W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR14MS
+       LI   R3,CR14ME-CR14MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR14MS TEXT 'Sprite should be right of the rectangle.'
+CR14ME EVEN
+
+*
 * Sprite left of rectangle
+*
+* Upper-left corner of sprite
+CR15SL BYTE 45,62
+* Sprite height & width
+CR15SR BYTE 9,11
+* Upper-left corner of rectangle
+CR15L  BYTE 23,106
+* Rectange height & width
+CR15W  BYTE 150,5
+*
+CR15   MOV  R11,R12
+       LI   R0,CR15SL
+       LI   R1,CR15SR
+       LI   R2,CR15L
+       LI   R3,CR15W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR15MS
+       LI   R3,CR15ME-CR15MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR15MS TEXT 'Sprite should be right of the rectangle.'
+CR15ME EVEN
+
 * Sprite right of rectangle and overflowing from screen
 * Sprite below rectangle and overflowing from screen
 * Sprite below and to left of rectangle
