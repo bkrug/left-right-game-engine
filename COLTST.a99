@@ -41,9 +41,17 @@ TSTLST DATA TSTEND-TSTLST-2/8
        DATA CR1
 	   TEXT 'CR1   '
 * Sprite top within rectangle
+       DATA CR2
+	   TEXT 'CR2   '
 * Sprite bottom within rectangle
+       DATA CR3
+	   TEXT 'CR3   '
 * Sprite left within rectangle
+       DATA CR4
+	   TEXT 'CR4   '
 * Sprite right within rectangle
+       DATA CR5
+	   TEXT 'CR5   '
 * Sprite upper-left corner within rectangle
 * Sprite lower-right corner within rectangle
 * Sprite top on edge of rectangle
@@ -401,7 +409,6 @@ CR1L   BYTE 101,84
 * Rectange height & width
 CR1W   BYTE 104,109
 *
-       EVEN
 CR1    MOV  R11,R12
        LI   R0,CR1SL
        LI   R1,CR1SR
@@ -412,18 +419,129 @@ CR1    MOV  R11,R12
        SETO R0
        MOV  R4,R1
 	   LI   R2,CR1MS
-       LI   R3,CR1ME-CH1MS
+       LI   R3,CR1ME-CR1MS
 	   BLWP @AEQ
        MOV  R12,R11
 	   RT
 CR1MS  TEXT 'Sprite should be within the rectangle so a collision should be detected.'
 CR1ME  EVEN
 
-* Sprite within rectangle
+*
 * Sprite top within rectangle
-* Sprite bottom within rectangle
+*
+* Upper-left corner of sprite
+CR2SL  BYTE 27,228
+* Sprite height & width
+CR2SR  BYTE 14,9
+* Upper-left corner of rectangle
+CR2L   BYTE 24,150
+* Rectange height & width
+CR2W   BYTE 20,82
+*
+CR2    MOV  R11,R12
+       LI   R0,CR2SL
+       LI   R1,CR2SR
+       LI   R2,CR2L
+       LI   R3,CR2W
+       BL   @COLRCT
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CR2MS
+       LI   R3,CR2ME-CR2MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR2MS  TEXT 'Sprite should overlap the bottom of the rectangle.'
+CR2ME  EVEN
+
+*
+* Sprite top within rectangle
+*
+* Upper-left corner of sprite
+CR3SL  BYTE 166,201
+* Sprite height & width
+CR3SR  BYTE 10,10
+* Upper-left corner of rectangle
+CR3L   BYTE 127,189
+* Rectange height & width
+CR3W   BYTE 43,39
+*
+CR3    MOV  R11,R12
+       LI   R0,CR3SL
+       LI   R1,CR3SR
+       LI   R2,CR3L
+       LI   R3,CR3W
+       BL   @COLRCT
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CR3MS
+       LI   R3,CR3ME-CR3MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR3MS  TEXT 'Sprite should overlap the bottom of the rectangle.'
+CR3ME  EVEN
+
+*
 * Sprite left within rectangle
+*
+* Upper-left corner of sprite
+CR4SL  BYTE 93,138
+* Sprite height & width
+CR4SR  BYTE 12,14
+* Upper-left corner of rectangle
+CR4L   BYTE 50,72
+* Rectange height & width
+CR4W   BYTE 104,71
+*
+CR4    MOV  R11,R12
+       LI   R0,CR4SL
+       LI   R1,CR4SR
+       LI   R2,CR4L
+       LI   R3,CR4W
+       BL   @COLRCT
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CR4MS
+       LI   R3,CR4ME-CR4MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR4MS  TEXT 'Sprite should overlap the right of the rectangle.'
+CR4ME  EVEN
+
+*
 * Sprite right within rectangle
+*
+* Upper-left corner of sprite
+CR5SL  BYTE 75,67
+* Sprite height & width
+CR5SR  BYTE 11,11
+* Upper-left corner of rectangle
+CR5L   BYTE 51,72
+* Rectange height & width
+CR5W   BYTE 94,64
+*
+CR5    MOV  R11,R12
+       LI   R0,CR5SL
+       LI   R1,CR5SR
+       LI   R2,CR5L
+       LI   R3,CR5W
+       BL   @COLRCT
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CR5MS
+       LI   R3,CR5ME-CR5MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR5MS  TEXT 'Sprite should overlap the left of the rectangle.'
+CR5ME  EVEN
+
 * Sprite upper-left corner within rectangle
 * Sprite lower-right corner within rectangle
 * Sprite top on edge of rectangle
