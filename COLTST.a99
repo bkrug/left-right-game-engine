@@ -1,7 +1,9 @@
        DEF  TSTLST,RSLTFL
 	   REF  AEQ
-* Detect if element is above horizontal line
+* Detect if element collides with a rectangle
        REF  COLHRZ
+* Detect if element is above horizontal line
+       REF  COLRCT
 
 TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite directly above line
@@ -35,6 +37,29 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite right below line edge
        DATA CH10
 	   TEXT 'CH10  '	   
+* Sprite within rectangle
+       DATA CR1
+	   TEXT 'CR1   '
+* Sprite top within rectangle
+* Sprite bottom within rectangle
+* Sprite left within rectangle
+* Sprite right within rectangle
+* Sprite upper-left corner within rectangle
+* Sprite lower-right corner within rectangle
+* Sprite top on edge of rectangle
+* Sprite bottom on edge of rectangle
+* Sprite left on edge of rectangle
+* Sprite right on edge or rectangle
+* Sprite below rectangle
+* Sprite above rectangle
+* Sprite right of rectangle
+* Sprite left of rectangle
+* Sprite right of rectangle and overflowing from screen
+* Sprite below rectangle and overflowing from screen
+* Sprite below and to left of rectangle
+* Sprite above and to right of rectangle
+* Rectangle at top of screen, sprite left side inside
+* Rectange at left of screen, sprite left side inside
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -363,4 +388,57 @@ CH10   MOV  R11,R12
 	   RT
 CH10MS TEXT 'Sprite right edge is below the line, so no collision should happen.'
 CH10ME EVEN
+
+*
+* Place a sprite within a rectangle
+*
+* Upper-left corner of sprite
+CR1SL  BYTE 124,97
+* Sprite height & width
+CR1SR  BYTE 12,15
+* Upper-left corner of rectangle
+CR1L   BYTE 101,84
+* Rectange height & width
+CR1W   BYTE 104,109
+*
+       EVEN
+CR1    MOV  R11,R12
+       LI   R0,CR1SL
+       LI   R1,CR1SR
+       LI   R2,CR1L
+       LI   R3,CR1W
+       BL   @COLRCT
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CR1MS
+       LI   R3,CR1ME-CH1MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR1MS  TEXT 'Sprite should be within the rectangle so a collision should be detected.'
+CR1ME  EVEN
+
+* Sprite within rectangle
+* Sprite top within rectangle
+* Sprite bottom within rectangle
+* Sprite left within rectangle
+* Sprite right within rectangle
+* Sprite upper-left corner within rectangle
+* Sprite lower-right corner within rectangle
+* Sprite top on edge of rectangle
+* Sprite bottom on edge of rectangle
+* Sprite left on edge of rectangle
+* Sprite right on edge or rectangle
+* Sprite below rectangle
+* Sprite above rectangle
+* Sprite right of rectangle
+* Sprite left of rectangle
+* Sprite right of rectangle and overflowing from screen
+* Sprite below rectangle and overflowing from screen
+* Sprite below and to left of rectangle
+* Sprite above and to right of rectangle
+* Rectangle at top of screen, sprite left side inside
+* Rectange at left of screen, sprite left side inside
+
        END
