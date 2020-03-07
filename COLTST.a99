@@ -58,10 +58,18 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite lower-right corner within rectangle
        DATA CR7
 	   TEXT 'CR7   '
-* Sprite top on edge of rectangle
-* Sprite bottom on edge of rectangle
-* Sprite left on edge of rectangle
-* Sprite right on edge or rectangle
+* Sprite top just below the rectangle
+       DATA CR8
+	   TEXT 'CR8   '
+* Sprite bottom just above the rectangle
+       DATA CR9
+	   TEXT 'CR9   '
+* Sprite left just to right of the rectangle
+       DATA CR10
+	   TEXT 'CR10  '
+* Sprite right just to left of the rectangle
+       DATA CR11
+	   TEXT 'CR11  '
 * Sprite below rectangle
 * Sprite above rectangle
 * Sprite right of rectangle
@@ -604,10 +612,122 @@ CR7    MOV  R11,R12
 CR7MS  TEXT 'Sprite should overlap the upper-left corner of the rectangle.'
 CR7ME  EVEN
 
-* Sprite top on edge of rectangle
-* Sprite bottom on edge of rectangle
-* Sprite left on edge of rectangle
-* Sprite right on edge or rectangle
+*
+* Sprite top just outside rectangle
+*
+* Upper-left corner of sprite
+CR8SL  BYTE 113,30
+* Sprite height & width
+CR8SR  BYTE 15,12
+* Upper-left corner of rectangle
+CR8L   BYTE 43,22
+* Rectange height & width
+CR8W   BYTE 70,190
+*
+CR8    MOV  R11,R12
+       LI   R0,CR8SL
+       LI   R1,CR8SR
+       LI   R2,CR8L
+       LI   R3,CR8W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR8MS
+       LI   R3,CR8ME-CR8MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR8MS  TEXT 'Sprite top edge should not quite touch the rectangle.'
+CR8ME  EVEN
+
+*
+* Sprite bottom just above the rectangle
+*
+* Upper-left corner of sprite
+CR9SL  BYTE 189,4
+* Sprite height & width
+CR9SR  BYTE 15,12
+* Upper-left corner of rectangle
+CR9L   BYTE 204,1
+* Rectange height & width
+CR9W   BYTE 31,209
+*
+CR9    MOV  R11,R12
+       LI   R0,CR9SL
+       LI   R1,CR9SR
+       LI   R2,CR9L
+       LI   R3,CR9W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR9MS
+       LI   R3,CR9ME-CR9MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR9MS  TEXT 'Sprite bottom edge should not quite touch the rectangle.'
+CR9ME  EVEN
+
+*
+* Sprite left just to right of the rectangle
+*
+* Upper-left corner of sprite
+CR10SL BYTE 224,123
+* Sprite height & width
+CR10SR BYTE 10,10
+* Upper-left corner of rectangle
+CR10L  BYTE 100,83
+* Rectange height & width
+CR10W  BYTE 241,141
+*
+CR10   MOV  R11,R12
+       LI   R0,CR10SL
+       LI   R1,CR10SR
+       LI   R2,CR10L
+       LI   R3,CR10W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR10MS
+       LI   R3,CR10ME-CR10MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR10MS TEXT 'Sprite left edge should not quite touch the rectangle.'
+CR10ME EVEN
+
+*
+* Sprite right just to left of the rectangle
+*
+* Upper-left corner of sprite
+CR11SL BYTE 94,159
+* Sprite height & width
+CR11SR BYTE 12,14
+* Upper-left corner of rectangle
+CR11L  BYTE 43,173
+* Rectange height & width
+CR11W  BYTE 129,52
+*
+CR11   MOV  R11,R12
+       LI   R0,CR11SL
+       LI   R1,CR11SR
+       LI   R2,CR11L
+       LI   R3,CR11W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR11MS
+       LI   R3,CR11ME-CR11MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR11MS TEXT 'Sprite right edge should not quite touch the rectangle.'
+CR11ME EVEN
+
 * Sprite below rectangle
 * Sprite above rectangle
 * Sprite right of rectangle
