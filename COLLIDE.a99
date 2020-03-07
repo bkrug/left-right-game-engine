@@ -13,43 +13,44 @@ RECB   BSS  1
 RECL   BSS  1
 RECR   BSS  1
 COLRCT
+* Let R4 contain "one" for subtraction
        LI   R4,>0100
-* Let SPRT = top of sprite
 * Let SPRL = left of sprite
-* Let SPRB = bottom of sprite
 * Let SPRR = right of sprite
-	   MOVB *R0+,@SPRT
 	   MOVB *R0+,@SPRL
-	   MOVB *R1+,@SPRB
 	   MOVB *R1+,@SPRR
-	   AB   @SPRT,@SPRB
 	   AB   @SPRL,@SPRR
-	   SB   R4,@SPRB
 	   SB   R4,@SPRR
-* Let RECT = top of rectangle
 * Let RECL = left of rectangle
-* Let RECB = bottom of rectangle
 * Let RECR = right of rectangle
-       MOVB *R2+,@RECT
 	   MOVB *R2+,@RECL
-	   MOVB *R3+,@RECB
 	   MOVB *R3+,@RECR
-	   AB   @RECT,@RECB
 	   AB   @RECL,@RECR
-	   SB   R4,@RECB
 	   SB   R4,@RECR
-* Compare sprite bottom to rect top
-	   CB   @SPRB,@RECT
-	   JL   COLR1
-* Compare sprite top to rect bottom
-       CB   @SPRT,@RECB
-	   JH   COLR1
 * Compare sprite left to rect right
        CB   @SPRL,@RECR
 	   JH   COLR1
 * Compare sprite right to rect left
        CB   @SPRR,@RECL
 	   JL   COLR1
+* Let SPRT = top of sprite
+* Let SPRB = bottom of sprite
+	   MOVB *R0+,@SPRT
+	   MOVB *R1+,@SPRB
+	   AB   @SPRT,@SPRB
+	   SB   R4,@SPRB
+* Let RECT = top of rectangle
+* Let RECB = bottom of rectangle
+       MOVB *R2+,@RECT
+	   MOVB *R3+,@RECB
+	   AB   @RECT,@RECB
+	   SB   R4,@RECB
+* Compare sprite bottom to rect top
+	   CB   @SPRB,@RECT
+	   JL   COLR1
+* Compare sprite top to rect bottom
+       CB   @SPRT,@RECB
+	   JH   COLR1
 * Collision detected
        SETO R4
        RT

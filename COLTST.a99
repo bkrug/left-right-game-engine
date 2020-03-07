@@ -83,11 +83,13 @@ TSTLST DATA TSTEND-TSTLST-2/8
        DATA CR15
 	   TEXT 'CR15  '
 * Sprite right of rectangle and overflowing from screen
+       DATA CR16
+	   TEXT 'CR16  '
 * Sprite below rectangle and overflowing from screen
+       DATA CR17
+	   TEXT 'CR17  '
 * Sprite below and to left of rectangle
 * Sprite above and to right of rectangle
-* Rectangle at top of screen, sprite left side inside
-* Rectange at left of screen, sprite left side inside
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -852,11 +854,65 @@ CR15   MOV  R11,R12
 CR15MS TEXT 'Sprite should be right of the rectangle.'
 CR15ME EVEN
 
+*
 * Sprite right of rectangle and overflowing from screen
+*
+* Upper-left corner of sprite
+CR16SL BYTE 120,254
+* Sprite height & width
+CR16SR BYTE 9,13
+* Upper-left corner of rectangle
+CR16L  BYTE 100,2
+* Rectange height & width
+CR16W  BYTE 50,249
+*
+CR16   MOV  R11,R12
+       LI   R0,CR16SL
+       LI   R1,CR16SR
+       LI   R2,CR16L
+       LI   R3,CR16W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR16MS
+       LI   R3,CR16ME-CR16MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR16MS TEXT 'Sprite should be right of the rectangle and overflow off of the screen.'
+CR16ME EVEN
+
+*
 * Sprite below rectangle and overflowing from screen
+*
+* Upper-left corner of sprite
+CR17SL BYTE 253,43
+* Sprite height & width
+CR17SR BYTE 13,9
+* Upper-left corner of rectangle
+CR17L  BYTE 100,2
+* Rectange height & width
+CR17W  BYTE 150,97
+*
+CR17   MOV  R11,R12
+       LI   R0,CR17SL
+       LI   R1,CR17SR
+       LI   R2,CR17L
+       LI   R3,CR17W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR17MS
+       LI   R3,CR17ME-CR17MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR17MS TEXT 'Sprite should be below the rectangle and overflow off of the screen.'
+CR17ME EVEN
+
 * Sprite below and to left of rectangle
 * Sprite above and to right of rectangle
-* Rectangle at top of screen, sprite left side inside
-* Rectange at left of screen, sprite left side inside
 
        END
