@@ -108,6 +108,12 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite collides with the triangle, but the upper-left corner is outside.
 	   DATA CT4
 	   TEXT 'CT4   '
+* Sprite is above triangle's horizontal leg.
+	   DATA CT5
+	   TEXT 'CT5   '
+* Sprite is left of the triangle's vertical leg.
+	   DATA CT6
+	   TEXT 'CT6   '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -1111,6 +1117,66 @@ CT4    MOV  R11,R12
 	   BLWP @AEQ
        MOV  R12,R11
 	   RT
-CT4MS  TEXT 'Sprite should be beyond the hypotenuse.'
+CT4MS  TEXT 'Sprite should overlap the triangle, but the upper-left corner should be outside.'
 CT4ME  EVEN
+
+*
+* Place a sprite above the triangle's
+* horizontal leg.
+*
+* Upper-left corner of sprite
+CT5SC  BYTE 36,121
+* Sprite height & width
+CT5SW  BYTE 14,11
+* Right angle of triangle
+CT5TR  BYTE 50,90
+* Length of vertical & horizontal legs
+CT5TL  BYTE 125,75
+*
+CT5    MOV  R11,R12
+       LI   R0,CT5SC
+       LI   R1,CT5SW
+       LI   R2,CT5TR
+       LI   R3,CT5TL
+       BL   @COLTRG
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CT5MS
+       LI   R3,CT5ME-CT5MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CT5MS  TEXT 'Sprite should be above horizontal leg.'
+CT5ME  EVEN
+
+*
+* Place a sprite above the triangle's
+* horizontal leg.
+*
+* Upper-left corner of sprite
+CT6SC  BYTE 152,48
+* Sprite height & width
+CT6SW  BYTE 13,12
+* Right angle of triangle
+CT6TR  BYTE 140,60
+* Length of vertical & horizontal legs
+CT6TL  BYTE 45,50
+*
+CT6    MOV  R11,R12
+       LI   R0,CT6SC
+       LI   R1,CT6SW
+       LI   R2,CT6TR
+       LI   R3,CT6TL
+       BL   @COLTRG
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CT6MS
+       LI   R3,CT6ME-CT6MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CT6MS  TEXT 'Sprite should be left of the vertical leg.'
+CT6ME  EVEN
        END
