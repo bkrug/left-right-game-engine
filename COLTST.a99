@@ -89,7 +89,11 @@ TSTLST DATA TSTEND-TSTLST-2/8
        DATA CR17
 	   TEXT 'CR17  '
 * Sprite below and to left of rectangle
+       DATA CR18
+	   TEXT 'CR18  '
 * Sprite above and to right of rectangle
+       DATA CR19
+	   TEXT 'CR19  '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -912,7 +916,61 @@ CR17   MOV  R11,R12
 CR17MS TEXT 'Sprite should be below the rectangle and overflow off of the screen.'
 CR17ME EVEN
 
+*
 * Sprite below and to left of rectangle
-* Sprite above and to right of rectangle
+*
+* Upper-left corner of sprite
+CR18SL BYTE 102,21
+* Sprite height & width
+CR18SR BYTE 12,12
+* Upper-left corner of rectangle
+CR18L  BYTE 52,43
+* Rectange height & width
+CR18W  BYTE 32,64
+*
+CR18   MOV  R11,R12
+       LI   R0,CR18SL
+       LI   R1,CR18SR
+       LI   R2,CR18L
+       LI   R3,CR18W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR18MS
+       LI   R3,CR18ME-CR18MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR18MS TEXT 'Sprite should be outside the rectangle below and to the left of it.'
+CR18ME EVEN
 
+*
+* Sprite above and to right of rectangle
+*
+* Upper-left corner of sprite
+CR19SL BYTE 12,117
+* Sprite height & width
+CR19SR BYTE 14,11
+* Upper-left corner of rectangle
+CR19L  BYTE 52,43
+* Rectange height & width
+CR19W  BYTE 32,64
+*
+CR19   MOV  R11,R12
+       LI   R0,CR19SL
+       LI   R1,CR19SR
+       LI   R2,CR19L
+       LI   R3,CR19W
+       BL   @COLRCT
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CR19MS
+       LI   R3,CR19ME-CR19MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CR19MS TEXT 'Sprite should be outside the rectangle above and to the right of it.'
+CR19ME EVEN
        END
