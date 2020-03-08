@@ -985,7 +985,7 @@ CR19ME EVEN
 * leg is the longer.
 *
 * Upper-left corner of sprite
-CT1SL  BYTE 5,20
+CT1SL  BYTE 125,100
 * Sprite height & width
 CT1SR  BYTE 10,10
 * Right angle of triangle
