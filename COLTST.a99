@@ -2,6 +2,8 @@
 	   REF  AEQ
 * Detect if element collides with a rectangle
        REF  COLHRZ
+* Detect if element collides with a right triangle
+       REF  COLTRG
 * Detect if element is above horizontal line
        REF  COLRCT
 
@@ -94,6 +96,8 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite above and to right of rectangle
        DATA CR19
 	   TEXT 'CR19  '
+	   DATA CT1
+	   TEXT 'CT1   '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -973,4 +977,36 @@ CR19   MOV  R11,R12
 	   RT
 CR19MS TEXT 'Sprite should be outside the rectangle above and to the right of it.'
 CR19ME EVEN
+
+*
+* Place a sprite within a triangle
+* whose legs extend right and down
+* from the right angle. The horizontal
+* leg is the longer.
+*
+* Upper-left corner of sprite
+CT1SL  BYTE 5,20
+* Sprite height & width
+CT1SR  BYTE 10,10
+* Right angle of triangle
+CT1L   BYTE 120,80
+* Length of vertical & horizontal legs
+CT1W   BYTE 40,60
+*
+CT1    MOV  R11,R12
+       LI   R0,CT1SL
+       LI   R1,CT1SR
+       LI   R2,CT1L
+       LI   R3,CT1W
+       BL   @COLTRG
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CT1MS
+       LI   R3,CT1ME-CT1MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CT1MS  TEXT 'Sprite should be within the triangle so a collision should be detected.'
+CT1ME  EVEN
        END

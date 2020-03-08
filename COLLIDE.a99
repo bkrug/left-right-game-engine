@@ -1,9 +1,21 @@
-       DEF  COLRCT,COLHRZ
+       DEF  COLRCT,COLTRG,COLHRZ
 
 * Return true if the specified
 * rectangle overlaps the other
 * rectangle.
 *
+* R0: Address of two 8-bit numbers 
+*     representing upper-left corner
+*     of the sprite
+* R1: Address of two 8-bit numbers
+*     representing height and width
+*     of the sprite
+* R2: Address of two 8-bit numbers
+*     representing upper-left corner
+*     of the rectangle.
+* R3: Address of two 8-bit numbers
+*     representing height and width
+*     of rectangle
 SPRT   BSS  1
 SPRB   BSS  1
 SPRL   BSS  1
@@ -56,6 +68,80 @@ COLRCT
        RT
 * No collision
 COLR1  CLR  R4
+       RT
+
+* Return true if the specified
+* sprite overlaps the triangle.
+*
+* R0: Address of two 8-bit numbers 
+*     representing upper-left corner
+*     of the sprite
+* R1: Address of two 8-bit numbers
+*     representing height and width
+*     of the sprite
+* R2: Address of two 8-bit numbers
+*     representing the Y and X coordinate
+*     for the triangle's right angle
+* R3: Address of two SIGNED 8-bit 
+*     numbers representing length of
+*     horizontal and vertical legs
+*     of triangle. Positive lengths
+*     imply legs extending down and
+*     right from the right-angle.
+COLTRG
+* Let R4 contain "one" for subtraction
+       LI   R4,>0100
+* Let SPRL = left of sprite
+* Let SPRR = right of sprite
+	   MOVB *R0+,@SPRL
+	   MOVB *R1+,@SPRR
+	   AB   @SPRL,@SPRR
+	   SB   R4,@SPRR
+* Let RECL = left of triangle
+	   MOVB *R2+,@RECL
+* Compare sprite right to tri left
+       CB   @SPRR,@RECL
+	   JL   COLT1
+* Let SPRT = top of sprite
+* Let SPRB = bottom of sprite
+	   MOVB *R0+,@SPRT
+	   MOVB *R1+,@SPRB
+	   AB   @SPRT,@SPRB
+	   SB   R4,@SPRB
+* Let RECT = top of triangle
+       MOVB *R2+,@RECT
+* Compare sprite bottom to tri top
+	   CB   @SPRB,@RECT
+	   JL   COLT1
+* Offset sprite upper-left by the
+* triangle's right-angle
+       SB   @RECL,@SPRL
+	   SB   @RECT,@SPRT
+* Multiply sprite's X position by
+* triangle's vertical leg length
+       MOVB *R3+,R4
+	   SRL  R4,8
+       MOVB @SPRT,R5
+	   SRA  R5,8
+	   MPY  R4,R5
+* Multiply sprite's Y position by
+* triangle's horizontal leg length
+       MOVB *R3+,R5
+	   SRL  R5,8
+       MOVB @SPRL,R7
+	   SRA  R7,8
+	   MPY  R5,R7
+* Find sum of the two products
+       A    R6,R8
+* Compare sum to product of leg lengths
+       MPY  R4,R5
+	   C    R8,R6
+	   JH   COLT1
+* Collision detected
+       SETO R4
+       RT
+* No collision
+COLT1  CLR  R4
        RT
 
 * Return true if the specified 
