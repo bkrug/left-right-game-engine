@@ -96,8 +96,18 @@ TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite above and to right of rectangle
        DATA CR19
 	   TEXT 'CR19  '
+* Sprite inside of a rectangle
 	   DATA CT1
 	   TEXT 'CT1   '
+* Sprite beyond the hypotenuse
+	   DATA CT2
+	   TEXT 'CT2   '
+* Sprite beyond the hypotenuse, and over 128 pixels from right angle
+	   DATA CT3
+	   TEXT 'CT3   '
+* Sprite collides with the triangle, but the upper-left corner is outside.
+	   DATA CT4
+	   TEXT 'CT4   '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -985,19 +995,19 @@ CR19ME EVEN
 * leg is the longer.
 *
 * Upper-left corner of sprite
-CT1SL  BYTE 125,100
+CT1SC  BYTE 125,100
 * Sprite height & width
-CT1SR  BYTE 10,10
+CT1SW  BYTE 10,10
 * Right angle of triangle
-CT1L   BYTE 120,80
+CT1TR  BYTE 120,80
 * Length of vertical & horizontal legs
-CT1W   BYTE 40,60
+CT1TL  BYTE 40,60
 *
 CT1    MOV  R11,R12
-       LI   R0,CT1SL
-       LI   R1,CT1SR
-       LI   R2,CT1L
-       LI   R3,CT1W
+       LI   R0,CT1SC
+       LI   R1,CT1SW
+       LI   R2,CT1TR
+       LI   R3,CT1TL
        BL   @COLTRG
 * If R4 is expected to be true (-1)
        SETO R0
@@ -1009,4 +1019,98 @@ CT1    MOV  R11,R12
 	   RT
 CT1MS  TEXT 'Sprite should be within the triangle so a collision should be detected.'
 CT1ME  EVEN
+
+*
+* Place a sprite beyond the hypotenuse 
+* of a triangle whose legs extend right 
+* and down.
+*
+* Upper-left corner of sprite
+CT2SC  BYTE 101,137
+* Sprite height & width
+CT2SW  BYTE 13,12
+* Right angle of triangle
+CT2TR  BYTE 80,90
+* Length of vertical & horizontal legs
+CT2TL  BYTE 40,80
+*
+CT2    MOV  R11,R12
+       LI   R0,CT2SC
+       LI   R1,CT2SW
+       LI   R2,CT2TR
+       LI   R3,CT2TL
+       BL   @COLTRG
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CT2MS
+       LI   R3,CT2ME-CT2MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CT2MS  TEXT 'Sprite should be beyond the hypotenuse.'
+CT2ME  EVEN
+
+*
+* Place a sprite beyond the hypotenuse 
+* of a triangle whose legs extend right 
+* and down. The sprite position is more
+* than 128 pixels beyond the angle.
+*
+* Upper-left corner of sprite
+CT3SC  BYTE 140,208
+* Sprite height & width
+CT3SW  BYTE 12,14
+* Right angle of triangle
+CT3TR  BYTE 2,2
+* Length of vertical & horizontal legs
+CT3TL  BYTE 30,30
+*
+CT3    MOV  R11,R12
+       LI   R0,CT3SC
+       LI   R1,CT3SW
+       LI   R2,CT3TR
+       LI   R3,CT3TL
+       BL   @COLTRG
+* If R4 is expected to be false (0)
+       CLR  R0
+       MOV  R4,R1
+	   LI   R2,CT3MS
+       LI   R3,CT3ME-CT3MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CT3MS  TEXT 'Sprite should be beyond the hypotenuse.'
+CT3ME  EVEN
+
+*
+* Place a sprite to overlap the triangle,
+* but the upper-left corner is outside
+* of it.
+*
+* Upper-left corner of sprite
+CT4SC  BYTE 5,5
+* Sprite height & width
+CT4SW  BYTE 12,14
+* Right angle of triangle
+CT4TR  BYTE 10,10
+* Length of vertical & horizontal legs
+CT4TL  BYTE 40,35
+*
+CT4    MOV  R11,R12
+       LI   R0,CT4SC
+       LI   R1,CT4SW
+       LI   R2,CT4TR
+       LI   R3,CT4TL
+       BL   @COLTRG
+* If R4 is expected to be true (-1)
+       SETO R0
+       MOV  R4,R1
+	   LI   R2,CT4MS
+       LI   R3,CT4ME-CT4MS
+	   BLWP @AEQ
+       MOV  R12,R11
+	   RT
+CT4MS  TEXT 'Sprite should be beyond the hypotenuse.'
+CT4ME  EVEN
        END

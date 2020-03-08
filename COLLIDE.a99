@@ -115,30 +115,42 @@ COLTRG
 	   JL   COLT1
 * Offset sprite upper-left by the
 * triangle's right-angle
-       SB   @RECL,@SPRL
-	   SB   @RECT,@SPRT
+*       SB   @RECL,@SPRL
+*       SB   @RECT,@SPRT
+* Let R9 = sprite top offset from
+* right angle (Y)
+       MOVB @RECT,R4
+	   SRL  R4,8
+	   MOVB @SPRT,R9
+	   SRL  R9,8
+	   S    R4,R9
+* Let R10 = sprite left offset from
+* right angle (X)
+       MOVB @RECL,R4
+	   SRL  R4,8
+       MOVB @SPRL,R10
+	   SRL  R10,8
+	   S    R4,R10
 * Let R4 = vertical leg length
 * Let R6 = sprite X offset * R4
        MOVB *R3+,R4
 	   SRL  R4,8
-       MOVB @SPRT,R5
-	   SRA  R5,8
+       MOV  R10,R5
 	   MPY  R4,R5
 * Let R5 = horizontal leg length
 * Let R8 = sprite Y offset * R5
        MOVB *R3+,R5
 	   SRL  R5,8
-       MOVB @SPRL,R7
-	   SRA  R7,8
+       MOV  R9,R7
 	   MPY  R5,R7
 * Let R8 = sum of the two products
        A    R6,R8
 * Let R6 = product of leg lengths
        MPY  R4,R5
-* Check which side of the line sprite 
-* corner is on
+* Check which side of the line the 
+* sprite corner is on
 	   C    R8,R6
-	   JH   COLT1
+	   JGT  COLT1
 * Collision detected
        SETO R4
        RT
