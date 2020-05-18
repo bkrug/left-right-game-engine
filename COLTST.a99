@@ -1,5 +1,5 @@
        DEF  TSTLST,RSLTFL
-	   REF  AEQ
+       REF  AEQ
 * Detect if element collides with a rectangle
        REF  COLHRZ
 * Detect if element collides with a right triangle
@@ -10,110 +10,110 @@
 TSTLST DATA TSTEND-TSTLST-2/8
 * Sprite directly above line
        DATA CH1
-	   TEXT 'CH1   '
+       TEXT 'CH1   '
 * Sprite directly below line
        DATA CH2
-	   TEXT 'CH2   '
+       TEXT 'CH2   '
 * Sprite top on line
        DATA CH3
-	   TEXT 'CH3   '
+       TEXT 'CH3   '
 * Sprite left above line edge
        DATA CH4
-	   TEXT 'CH4   '
+       TEXT 'CH4   '
 * Sprite left below line edge
        DATA CH5
-	   TEXT 'CH5   '
+       TEXT 'CH5   '
 * Sprite to the left of line (but high)
        DATA CH6
-	   TEXT 'CH6   '
+       TEXT 'CH6   '
 * Sprite to the right of line (but high)
        DATA CH7
-	   TEXT 'CH7   '
+       TEXT 'CH7   '
 * Sprite to the right of line.
 * Right edge spills of the screen.
        DATA CH8
-	   TEXT 'CH8   '
+       TEXT 'CH8   '
 * Sprite right above line edge
        DATA CH9
-	   TEXT 'CH9   '	   
+       TEXT 'CH9   '       
 * Sprite right below line edge
        DATA CH10
-	   TEXT 'CH10  '	   
+       TEXT 'CH10  '       
 * Sprite within rectangle
        DATA CR1
-	   TEXT 'CR1   '
+       TEXT 'CR1   '
 * Sprite top within rectangle
        DATA CR2
-	   TEXT 'CR2   '
+       TEXT 'CR2   '
 * Sprite bottom within rectangle
        DATA CR3
-	   TEXT 'CR3   '
+       TEXT 'CR3   '
 * Sprite left within rectangle
        DATA CR4
-	   TEXT 'CR4   '
+       TEXT 'CR4   '
 * Sprite right within rectangle
        DATA CR5
-	   TEXT 'CR5   '
+       TEXT 'CR5   '
 * Sprite upper-left corner within rectangle
        DATA CR6
-	   TEXT 'CR6   '
+       TEXT 'CR6   '
 * Sprite lower-right corner within rectangle
        DATA CR7
-	   TEXT 'CR7   '
+       TEXT 'CR7   '
 * Sprite top just below the rectangle
        DATA CR8
-	   TEXT 'CR8   '
+       TEXT 'CR8   '
 * Sprite bottom just above the rectangle
        DATA CR9
-	   TEXT 'CR9   '
+       TEXT 'CR9   '
 * Sprite left just to right of the rectangle
        DATA CR10
-	   TEXT 'CR10  '
+       TEXT 'CR10  '
 * Sprite right just to left of the rectangle
        DATA CR11
-	   TEXT 'CR11  '
+       TEXT 'CR11  '
 * Sprite below rectangle
        DATA CR12
-	   TEXT 'CR12  '
+       TEXT 'CR12  '
 * Sprite above rectangle
        DATA CR13
-	   TEXT 'CR13  '
+       TEXT 'CR13  '
 * Sprite right of rectangle
        DATA CR14
-	   TEXT 'CR14  '
+       TEXT 'CR14  '
 * Sprite left of rectangle
        DATA CR15
-	   TEXT 'CR15  '
+       TEXT 'CR15  '
 * Sprite right of rectangle and overflowing from screen
        DATA CR16
-	   TEXT 'CR16  '
+       TEXT 'CR16  '
 * Sprite below rectangle and overflowing from screen
        DATA CR17
-	   TEXT 'CR17  '
+       TEXT 'CR17  '
 * Sprite below and to left of rectangle
        DATA CR18
-	   TEXT 'CR18  '
+       TEXT 'CR18  '
 * Sprite above and to right of rectangle
        DATA CR19
-	   TEXT 'CR19  '
+       TEXT 'CR19  '
 * Sprite inside of a rectangle
-	   DATA CT1
-	   TEXT 'CT1   '
+       DATA CT1
+       TEXT 'CT1   '
 * Sprite beyond the hypotenuse
-	   DATA CT2
-	   TEXT 'CT2   '
+       DATA CT2
+       TEXT 'CT2   '
 * Sprite beyond the hypotenuse, and over 128 pixels from right angle
-	   DATA CT3
-	   TEXT 'CT3   '
+       DATA CT3
+       TEXT 'CT3   '
 * Sprite collides with the triangle, but the upper-left corner is outside.
-	   DATA CT4
-	   TEXT 'CT4   '
+       DATA CT4
+       TEXT 'CT4   '
 * Sprite is above triangle's horizontal leg.
-	   DATA CT5
-	   TEXT 'CT5   '
+       DATA CT5
+       TEXT 'CT5   '
 * Sprite is left of the triangle's vertical leg.
-	   DATA CT6
-	   TEXT 'CT6   '
+       DATA CT6
+       TEXT 'CT6   '
 TSTEND
 RSLTFL BYTE RSLTFE-RSLTFL-1
        TEXT 'DSK2.TESTRESULT.TXT'
@@ -144,11 +144,11 @@ CH1    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CH1MS
+       LI   R2,CH1MS
        LI   R3,CH1ME-CH1MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH1MS  TEXT 'Sprite directly above line so a collision should be detected.'
 CH1ME  EVEN
 
@@ -170,17 +170,17 @@ CH2W   BYTE 61
 CH2    MOV  R11,R12
        LI   R0,CH2SL
        LI   R1,CH2SR
-	   LI   R2,CH2L
-	   LI   R3,CH2W
-	   BL   @COLHRZ
+       LI   R2,CH2L
+       LI   R3,CH2W
+       BL   @COLHRZ
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CH2MS
-	   LI   R3,CH2ME-CH2MS
-	   BLWP @AEQ
+       LI   R2,CH2MS
+       LI   R3,CH2ME-CH2MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH2MS  TEXT 'Sprite directly below line so no collision should be detected.'
 CH2ME  EVEN
 
@@ -202,17 +202,17 @@ CH3W   BYTE 48
 CH3    MOV  R11,R12
        LI   R0,CH3SL
        LI   R1,CH3SR
-	   LI   R2,CH3L
-	   LI   R3,CH3W
-	   BL   @COLHRZ
+       LI   R2,CH3L
+       LI   R3,CH3W
+       BL   @COLHRZ
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CH3MS
-	   LI   R3,CH3ME-CH3MS
-	   BLWP @AEQ
+       LI   R2,CH3MS
+       LI   R3,CH3ME-CH3MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH3MS  TEXT 'Sprite top directly on line so collision should be detected.'
 CH3ME  EVEN
 
@@ -234,17 +234,17 @@ CH4W   BYTE 149
 CH4    MOV  R11,R12
        LI   R0,CH4SL
        LI   R1,CH4SR
-	   LI   R2,CH4L
-	   LI   R3,CH4W
-	   BL   @COLHRZ
+       LI   R2,CH4L
+       LI   R3,CH4W
+       BL   @COLHRZ
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CH4MS
-	   LI   R3,CH4ME-CH4MS
-	   BLWP @AEQ
+       LI   R2,CH4MS
+       LI   R3,CH4ME-CH4MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH4MS  TEXT 'Sprite left edge directly above line left edge should result in collision.'
 CH4ME  EVEN
 
@@ -266,17 +266,17 @@ CH5W   BYTE 87
 CH5    MOV  R11,R12
        LI   R0,CH5SL
        LI   R1,CH5SR
-	   LI   R2,CH5L
-	   LI   R3,CH5W
-	   BL   @COLHRZ
+       LI   R2,CH5L
+       LI   R3,CH5W
+       BL   @COLHRZ
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CH5MS
-	   LI   R3,CH5ME-CH5MS
-	   BLWP @AEQ
+       LI   R2,CH5MS
+       LI   R3,CH5ME-CH5MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH5MS  TEXT 'Sprite left edge directly below line left edge should not result in collision.'
 CH5ME  EVEN
 
@@ -298,17 +298,17 @@ CH6W   BYTE 62
 CH6    MOV  R11,R12
        LI   R0,CH6SL
        LI   R1,CH6SR
-	   LI   R2,CH6L
-	   LI   R3,CH6W
-	   BL   @COLHRZ
+       LI   R2,CH6L
+       LI   R3,CH6W
+       BL   @COLHRZ
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CH6MS
-	   LI   R3,CH6ME-CH6MS
-	   BLWP @AEQ
+       LI   R2,CH6MS
+       LI   R3,CH6ME-CH6MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH6MS  TEXT 'Sprite is to the left of the line so no collision should be detected.'
 CH6ME  EVEN
 
@@ -330,17 +330,17 @@ CH7W   BYTE 128
 CH7    MOV  R11,R12
        LI   R0,CH7SL
        LI   R1,CH7SR
-	   LI   R2,CH7L
-	   LI   R3,CH7W
-	   BL   @COLHRZ
+       LI   R2,CH7L
+       LI   R3,CH7W
+       BL   @COLHRZ
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CH7MS
-	   LI   R3,CH7ME-CH7MS
-	   BLWP @AEQ
+       LI   R2,CH7MS
+       LI   R3,CH7ME-CH7MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH7MS  TEXT 'Sprite is to the right of the line so no collision should be detected.'
 CH7ME  EVEN
 
@@ -363,20 +363,20 @@ CH8W   BYTE 62
 CH8    MOV  R11,R12
        LI   R0,CH8SL
        LI   R1,CH8SR
-	   LI   R2,CH8L
-	   LI   R3,CH8W
-	   BL   @COLHRZ
+       LI   R2,CH8L
+       LI   R3,CH8W
+       BL   @COLHRZ
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CH8MS
-	   LI   R3,CH8ME-CH8MS
-	   BLWP @AEQ
+       LI   R2,CH8MS
+       LI   R3,CH8ME-CH8MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH8MS  TEXT 'Sprite is to the right of the line. '
        TEXT 'Sprite spills off the right edge of the screen. '
-	   TEXT 'If a collision is detected, that is an error.'
+       TEXT 'If a collision is detected, that is an error.'
 CH8ME  EVEN
 
 *
@@ -397,17 +397,17 @@ CH9W   BYTE 78
 CH9    MOV  R11,R12
        LI   R0,CH9SL
        LI   R1,CH9SR
-	   LI   R2,CH9L
-	   LI   R3,CH9W
-	   BL   @COLHRZ
+       LI   R2,CH9L
+       LI   R3,CH9W
+       BL   @COLHRZ
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CH9MS
-	   LI   R3,CH9ME-CH9MS
-	   BLWP @AEQ
+       LI   R2,CH9MS
+       LI   R3,CH9ME-CH9MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH9MS  TEXT 'Sprite right edge is above the line, so collision should happen.'
 CH9ME  EVEN
 
@@ -429,17 +429,17 @@ CH10W  BYTE 61
 CH10   MOV  R11,R12
        LI   R0,CH10SL
        LI   R1,CH10SR
-	   LI   R2,CH10L
-	   LI   R3,CH10W
-	   BL   @COLHRZ
+       LI   R2,CH10L
+       LI   R3,CH10W
+       BL   @COLHRZ
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CH10MS
-	   LI   R3,CH10ME-CH10MS
-	   BLWP @AEQ
+       LI   R2,CH10MS
+       LI   R3,CH10ME-CH10MS
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CH10MS TEXT 'Sprite right edge is below the line, so no collision should happen.'
 CH10ME EVEN
 
@@ -464,11 +464,11 @@ CR1    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR1MS
+       LI   R2,CR1MS
        LI   R3,CR1ME-CR1MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR1MS  TEXT 'Sprite should be within the rectangle so a collision should be detected.'
 CR1ME  EVEN
 
@@ -493,11 +493,11 @@ CR2    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR2MS
+       LI   R2,CR2MS
        LI   R3,CR2ME-CR2MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR2MS  TEXT 'Sprite should overlap the bottom of the rectangle.'
 CR2ME  EVEN
 
@@ -522,11 +522,11 @@ CR3    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR3MS
+       LI   R2,CR3MS
        LI   R3,CR3ME-CR3MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR3MS  TEXT 'Sprite should overlap the bottom of the rectangle.'
 CR3ME  EVEN
 
@@ -551,11 +551,11 @@ CR4    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR4MS
+       LI   R2,CR4MS
        LI   R3,CR4ME-CR4MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR4MS  TEXT 'Sprite should overlap the right of the rectangle.'
 CR4ME  EVEN
 
@@ -580,11 +580,11 @@ CR5    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR5MS
+       LI   R2,CR5MS
        LI   R3,CR5ME-CR5MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR5MS  TEXT 'Sprite should overlap the left of the rectangle.'
 CR5ME  EVEN
 
@@ -609,11 +609,11 @@ CR6    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR6MS
+       LI   R2,CR6MS
        LI   R3,CR6ME-CR6MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR6MS  TEXT 'Sprite should overlap the lower-right corner of the rectangle.'
 CR6ME  EVEN
 
@@ -638,11 +638,11 @@ CR7    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CR7MS
+       LI   R2,CR7MS
        LI   R3,CR7ME-CR7MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR7MS  TEXT 'Sprite should overlap the upper-left corner of the rectangle.'
 CR7ME  EVEN
 
@@ -667,11 +667,11 @@ CR8    MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR8MS
+       LI   R2,CR8MS
        LI   R3,CR8ME-CR8MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR8MS  TEXT 'Sprite top edge should not quite touch the rectangle.'
 CR8ME  EVEN
 
@@ -696,11 +696,11 @@ CR9    MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR9MS
+       LI   R2,CR9MS
        LI   R3,CR9ME-CR9MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR9MS  TEXT 'Sprite bottom edge should not quite touch the rectangle.'
 CR9ME  EVEN
 
@@ -725,11 +725,11 @@ CR10   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR10MS
+       LI   R2,CR10MS
        LI   R3,CR10ME-CR10MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR10MS TEXT 'Sprite left edge should not quite touch the rectangle.'
 CR10ME EVEN
 
@@ -754,11 +754,11 @@ CR11   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR11MS
+       LI   R2,CR11MS
        LI   R3,CR11ME-CR11MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR11MS TEXT 'Sprite right edge should not quite touch the rectangle.'
 CR11ME EVEN
 
@@ -783,11 +783,11 @@ CR12   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR12MS
+       LI   R2,CR12MS
        LI   R3,CR12ME-CR12MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR12MS TEXT 'Sprite should be below the rectangle.'
 CR12ME EVEN
 
@@ -812,11 +812,11 @@ CR13   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR13MS
+       LI   R2,CR13MS
        LI   R3,CR13ME-CR13MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR13MS TEXT 'Sprite should be above the rectangle.'
 CR13ME EVEN
 
@@ -841,11 +841,11 @@ CR14   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR14MS
+       LI   R2,CR14MS
        LI   R3,CR14ME-CR14MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR14MS TEXT 'Sprite should be right of the rectangle.'
 CR14ME EVEN
 
@@ -870,11 +870,11 @@ CR15   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR15MS
+       LI   R2,CR15MS
        LI   R3,CR15ME-CR15MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR15MS TEXT 'Sprite should be right of the rectangle.'
 CR15ME EVEN
 
@@ -899,11 +899,11 @@ CR16   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR16MS
+       LI   R2,CR16MS
        LI   R3,CR16ME-CR16MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR16MS TEXT 'Sprite should be right of the rectangle and overflow off of the screen.'
 CR16ME EVEN
 
@@ -928,11 +928,11 @@ CR17   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR17MS
+       LI   R2,CR17MS
        LI   R3,CR17ME-CR17MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR17MS TEXT 'Sprite should be below the rectangle and overflow off of the screen.'
 CR17ME EVEN
 
@@ -957,11 +957,11 @@ CR18   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR18MS
+       LI   R2,CR18MS
        LI   R3,CR18ME-CR18MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR18MS TEXT 'Sprite should be outside the rectangle below and to the left of it.'
 CR18ME EVEN
 
@@ -986,11 +986,11 @@ CR19   MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CR19MS
+       LI   R2,CR19MS
        LI   R3,CR19ME-CR19MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CR19MS TEXT 'Sprite should be outside the rectangle above and to the right of it.'
 CR19ME EVEN
 
@@ -1018,11 +1018,11 @@ CT1    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CT1MS
+       LI   R2,CT1MS
        LI   R3,CT1ME-CT1MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CT1MS  TEXT 'Sprite should be within the triangle so a collision should be detected.'
 CT1ME  EVEN
 
@@ -1049,11 +1049,11 @@ CT2    MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CT2MS
+       LI   R2,CT2MS
        LI   R3,CT2ME-CT2MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CT2MS  TEXT 'Sprite should be beyond the hypotenuse.'
 CT2ME  EVEN
 
@@ -1081,11 +1081,11 @@ CT3    MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CT3MS
+       LI   R2,CT3MS
        LI   R3,CT3ME-CT3MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CT3MS  TEXT 'Sprite should be beyond the hypotenuse.'
 CT3ME  EVEN
 
@@ -1112,11 +1112,11 @@ CT4    MOV  R11,R12
 * If R4 is expected to be true (-1)
        SETO R0
        MOV  R4,R1
-	   LI   R2,CT4MS
+       LI   R2,CT4MS
        LI   R3,CT4ME-CT4MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CT4MS  TEXT 'Sprite should overlap the triangle, but the upper-left corner should be outside.'
 CT4ME  EVEN
 
@@ -1142,11 +1142,11 @@ CT5    MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CT5MS
+       LI   R2,CT5MS
        LI   R3,CT5ME-CT5MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CT5MS  TEXT 'Sprite should be above horizontal leg.'
 CT5ME  EVEN
 
@@ -1172,11 +1172,11 @@ CT6    MOV  R11,R12
 * If R4 is expected to be false (0)
        CLR  R0
        MOV  R4,R1
-	   LI   R2,CT6MS
+       LI   R2,CT6MS
        LI   R3,CT6ME-CT6MS
-	   BLWP @AEQ
+       BLWP @AEQ
        MOV  R12,R11
-	   RT
+       RT
 CT6MS  TEXT 'Sprite should be left of the vertical leg.'
 CT6ME  EVEN
        END

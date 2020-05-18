@@ -1,6 +1,6 @@
        DEF  RUNTST
-	   DEF  MAKETX,PRINTL
-	   DEF  AEQ,ANEQ
+       DEF  MAKETX,PRINTL
+       DEF  AEQ,ANEQ
        REF  TSTLST,RSLTFL
        REF  VMBW,VMBR,VSBW,DSRLNK
 
@@ -26,45 +26,45 @@ RUNT   LWPI WORKSP
 * Display test start message
        LI   R0,STARTM
        LI   R1,ENDM-STARTM
-	   BL   @SCRLPT
+       BL   @SCRLPT
 * Initialize variables for tracking
 * test run progress
        LI   R0,TSTLST
-	   MOV  *R0+,@TSTCNT
+       MOV  *R0+,@TSTCNT
        MOV  R0,@TSTADR
 * Write name of the next test
 TSTLP  MOV  @TSTADR,R0
-	   INCT R0
-	   LI   R1,6
+       INCT R0
+       LI   R1,6
        BL   @SCRLPT
 * Clear and load test workspace
        LI   R0,TSTWS
 TSTL05 CLR  *R0+
        CI   R0,TSTWS+>20
-	   JL   TSTL05
+       JL   TSTL05
        LWPI TSTWS
 * Branch and link to the next test
        MOV  @TSTADR,R11
-	   MOV  *R11,R11
-	   BL   *R11
+       MOV  *R11,R11
+       BL   *R11
 * Restore local workspace
        LWPI WORKSP
 * Print pass message
 TSTL10 LI   R0,23*32+6
        LI   R1,PASSM
-	   LI   R2,PASSME-PASSM
-	   BLWP @VMBW
+       LI   R2,PASSME-PASSM
+       BLWP @VMBW
 TSTL20
 * Update test progress variables
-	   LI   R1,8
-	   A    R1,@TSTADR
-	   DEC  @TSTCNT
+       LI   R1,8
+       A    R1,@TSTADR
+       DEC  @TSTCNT
 * Make next iteration in loop
-	   JH   TSTLP
+       JH   TSTLP
 * Display test completion message
        LI   R0,ENDM
        LI   R1,ENDME-ENDM
-	   BL   @SCRLPT
+       BL   @SCRLPT
 * Close test result file
        BL   @CLOSEF
 *
@@ -159,8 +159,8 @@ SCRLPT MOV  R11,*R12+
        BL   @WRITEF
        BL   @SCRLP
        DECT R12
-	   MOV  *R12,R11
-	   RT
+       MOV  *R12,R11
+       RT
        
 SCRLP  MOV  R11,*R12+
        MOV  R8,*R12+
@@ -247,10 +247,10 @@ OPENF
        BLWP @VMBW
 * Copy filename to VDP RAM
        LI   R0,PAB+9
-	   LI   R1,RSLTFL
-	   MOV  *R1,R2
-	   INC  R2
-	   BLWP @VMBW
+       LI   R1,RSLTFL
+       MOV  *R1,R2
+       INC  R2
+       BLWP @VMBW
 * Open file
        LI   R6,PAB+9
        MOV  R6,@PNTR
@@ -469,5 +469,5 @@ RF
 * need to run extra assertions
 * in the same test.
        B    @TSTL20
-	   
-       END	   
+       
+       END       
